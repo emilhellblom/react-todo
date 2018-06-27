@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
 
-export default class AddItem extends Component {
+export default class EditItem extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      title: this.props.title,
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -24,16 +26,13 @@ export default class AddItem extends Component {
   }
 
   render() {
-    console.log(this.props)
+    const { title } = this.state;
     return (
       <div>
+        <h2>
+          {title}
+        </h2>
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <label>
-              Title
-            </label>
-            <input name="title" type="text" onChange={this.handleChange} />
-          </div>
           <div>
             <label>
               Description
@@ -58,4 +57,3 @@ export default class AddItem extends Component {
     );
   }
 }
-
