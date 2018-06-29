@@ -3,3 +3,163 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.edit-form.editing-true {
+  flex-direction: column;
+}
+
+.edit-form.editing-true h2 {
+  font-weight: 500;
+}
+
+.page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.page p {
+  font-size: 25px;
+  font-family: 'Avenir Next', sans-serif;
+}
+
+button, input[type='submit'] {
+  padding: 10px;
+  background: lightblue;
+  color: black;
+  border: none;
+  font-size: 20px;
+  font-family: 'Avenir Next', sans-serif;
+  outline: none;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button svg, input[type='submit'] svg {
+  height: 25px;
+  width: 25px;
+  fill: white;
+}
+
+.form-input {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+}
+
+form {
+  margin: 30px 0px;
+}
+
+input {
+  width: 80%;
+  background: none;
+  margin: 10px 0px;
+  outline: none;
+  border: none;
+  background-color: white;
+  box-shadow: #80808066 0px 0px 18px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+input[type='submit'] {
+  width: 100px;
+  box-shadow: none;
+}
+
+label {
+  width: 20%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: grey;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.list-item {
+  display: flex;
+  box-shadow: #80808066 0px 0px 18px;
+  width: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+  transform: translateX(-300px);
+  animation: slideIn .5s forwards;
+}
+
+.list-item > div {
+  display: flex;
+  font-family: 'Avenir Next', sans-serif;
+}
+
+.list-item > div > h2 {
+  font-weight: 100;
+}
+
+.item-title {
+  margin: 0px;
+}
+
+.list-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+#delete-btn {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#delete-btn svg {
+  fill: lightblue;
+  height: 50px;
+  width: 50px;
+  transform: rotate(45deg);
+}
+
+.item-date {
+  margin: 0px;
+}
+
+.list-item-info {
+  width: 600px;
+}
+
+.button-row {
+  display: flex;
+}
+
+.button-row button {
+  margin: 10px;
+}
+
+.item-description {
+  margin: 2px;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-300px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}

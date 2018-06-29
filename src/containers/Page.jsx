@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { addItem, editItem, deleteItem } from '../actions/items';
-import AddItem from '../components/AddItem';
-import EditItem from '../components/EditItem';
+import ItemForm from '../components/ItemForm';
+import ItemList from '../components/ItemList';
+
 
 // import './Page.css';
 
@@ -11,13 +14,12 @@ class Page extends Component {
     super(props);
     this.state = {
       date: new Date(),
-      addItemForm: false,
-      editItemForm: false,
+      adding: false,
+      editing: false,
     };
     this.alertTime = this.alertTime.bind(this);
-    this.renderAddItemForm = this.renderAddItemForm.bind(this);
-    this.handleAddSubmit = this.handleAddSubmit.bind(this);
-    this.handleEditSubmit = this.handleEditSubmit.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -51,80 +53,65 @@ class Page extends Component {
     }
   }
 
-  handleAddSubmit(e) {
-    const { addItem } = this.props;
-    addItem(e);
-    this.setState({ addItemForm: false });
+  handleSubmit(e, action) {
+    const { addItem, editItem } = this.props;
+    action === 'add' ? addItem(e) : editItem(e);
+    this.setState({
+      editing: false,
+      adding: false,
+    })
   }
 
-  handleEditSubmit(e) {
-    const { editItem } = this.props;
-    console.log(e);
-    editItem(e);
-    this.setState({ editItemForm: false });
+  toggleForm(action) {
+    if (action === 'add') {
+      this.setState({
+        adding: true,
+      });
+    } else if (action === 'edit') {
+      this.setState({
+        editing: true,
+      });
+    } else {
+      this.setState({
+        editing: false,
+        adding: false,
+      });
+    }
   }
-
-  renderEditItemForm(bool) {
-    this.setState({ editItemForm: bool });
-  }
-
-  renderAddItemForm() {
-    this.setState({ addItemForm: true });
-  }
-
 
   render() {
     const { items, deleteItem } = this.props;
-    const { date, addItemForm, editItemForm } = this.state;
+    const { date, renderForm, adding, editing } = this.state;
 
     this.alertTime();
 
     return (
-      <div className="Page">
+      <div className="page">
         <div>
           <p>
             {date.toLocaleTimeString()}
           </p>
         </div>
-        {addItemForm && <AddItem onSubmit={this.handleAddSubmit} />}
-        {!addItemForm && (
-        <button type="button" onClick={() => this.renderAddItemForm()}>
-          Add Item
-        </button>)}
-        {!editItemForm && !addItemForm && items.length > 0 && (
-        <button type="button" onClick={() => this.renderEditItemForm(true)}>
-          Edit
-        </button>)}
-        {editItemForm && !addItemForm && items.length > 0 && (
-        <button type="button" onClick={() => this.renderEditItemForm(false)}>
-          Cancel Edit
-        </button>)}
-        {items && items.map(item => (
-          <div key={item.title}>
-            {!editItemForm && (
-            <div>
-              <h2>
-                {item.title}
-              </h2>
-              <h2>
-                {item.description}
-              </h2>
-              <h2>
-                {item.date}
-                {item.time}
-              </h2>
-
-            </div>)}
-            {editItemForm && <EditItem onSubmit={this.handleEditSubmit} title={item.title} />}
-            <button type="button" onClick={() => deleteItem(item.title)}>
-              Delete
-            </button>
-          </div>
-        ))}
+        <ItemList
+          renderForm={renderForm}
+          items={items}
+          adding={adding}
+          editing={editing}
+          deleteItem={deleteItem}
+          toggleForm={this.toggleForm}
+          handleSubmit={this.handleSubmit}
+        />
+        {adding && <ItemForm editing={editing} handleSubmit={this.handleSubmit} adding={adding} />}
       </div>
     );
-  };
+  }
 }
+
+Page.propTypes = {
+  addItem: PropTypes.func.isRequired,
+  editItem: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({ items: state.items });
 
